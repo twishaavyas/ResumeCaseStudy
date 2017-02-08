@@ -39,11 +39,9 @@
 
 		<br><br>
 		<div class="form-group">
-		    {!! Form::label('Your Qualification:') !!}
-		    {!! Form::text('qualification', null, 
-		        array('required', 
-		              'class'=>'form-control'
-		             )) !!}
+		   	{!! Form::label('Your Qualification:') !!} 
+		  	{{ Form::radio('qualification', 'Graduate', true) }} Graduate 
+			{{ Form::radio('qualification', 'PostGraduate') }} Post Graduate
 		</div>
 
 		<br><br>

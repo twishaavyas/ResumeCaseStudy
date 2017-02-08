@@ -53,10 +53,14 @@
           <td>{{ $value->email }}</td>
           <td>{{ $value->qualification}}</td>
           <td>{{ $value->hobbies }}</td>
-          <td>{{ $value->hobbies }}</td>
-          <!-- <td><a href="/download"  class="btn btn-primary"> $value->resume </a> </td> -->
+          <!-- <td>{{ $value->resume }}</td> -->
+          <td><a href = {{ URL::to('/') }}/uploads/{{$value->resume}}> {{$value->resume}} </a> </td>
           <td><a href="{{ route('resume.edit', $value->id) }}" class="btn btn-primary">Edit</a> </td>
-          <td><a href="{{ route('resume.destroy', $value->id) }}" class="btn btn-primary">Destroy</a> </td>
+
+          
+          {{ Form::open(['route' => ['resume.destroy', $value->id], 'method' => 'delete']) }}
+            <td><button type="submit">Delete</button></td>
+          {{ Form::close() }}
         </tr>
       @endforeach
     </table>

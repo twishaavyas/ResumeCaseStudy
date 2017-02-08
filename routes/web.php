@@ -17,12 +17,4 @@ Route::get('/', function () {
 
 Route::resource('resume', 'ResumeController');
 
-Route::get('upload', function(){
-    return view('resume.upload');
-});
 
-Route::post('upload_file', [
-	'uses' => 'ResumeController@uploadFile'
-	]);
-
-Route::get('/download', 'ResumeController@download');
