@@ -31,6 +31,9 @@
 
         </style>
     </head>
+    <script>
+        @yield('script')
+    </script>
     <body> 
         <div class = twisha> Twisha's Test Case  </div>
         @yield('body') </body>

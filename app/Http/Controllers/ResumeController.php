@@ -123,11 +123,19 @@ class ResumeController extends Controller
 	// 	return view('resume.upload');
 	// }
 
-	public function download($id)
+	// public function download($id)
+	// {
+	// 	$resume = Resume::find($id);
+	// 	$filename = $resume->resume;
+	//     $file = public_path(). "/uploads/" . $filename;   
+	//     return response()->download($file);
+	// }
+
+	public function deleteRecord($id)
 	{
-		$resume = Resume::find($id);
-		$filename = $resume->resume;
-	    $file = public_path(). "/uploads/" . $filename;   
-	    return response()->download($file);
+	    $findRecord = Resume::findOrFail($id);
+	    $findRecord->delete();
+
+	    return 'success';
 	}
 }
