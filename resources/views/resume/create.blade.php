@@ -6,6 +6,12 @@
 
 @section('body')
 	
+	@if(Session::has('message')) 
+		<div class="alert-danger">
+		  {{ Session::get('message') }} 
+		</div>
+	@endif
+
 	{!! Form::open([
     'method' => 'POST',
     'route' => ['resume.store'],
@@ -59,6 +65,8 @@
 		<div class="form-group">
 			{!! Form::open(array('url'=>'upload_file','method'=>'POST', 'files'=>true)) !!}
 			Upload your resume: 
+			<font size = "2px" color = "red"> Size less than 5mb, extenion: pdf, doc or docx, filename without spaces. </font>
+			<br>
 			{!! Form::file('resume', array('multiple'=> false)) !!}
 		</div>
 

@@ -3,67 +3,74 @@
 @section('title') Edit @stop
 
 @section('body')
-<h1> EDIT </h1>
 
-{!! Form::model($resume, [
-    'method' => 'PATCH',
-    'route' => ['resume.update', $resume->id]
-]) !!}
-
-		<br><br>
-		<div class="form-group">
-		    {!! Form::label('Your Name:') !!}
-		    {!! Form::text('name', null, 
-		        array('required', 
-		              'class'=>'form-control'
-		             )) !!}
+	@if(Session::has('message')) 
+		<div class="alert alert-danger">
+		  {{ Session::get('message') }} 
 		</div>
+	@endif
 
-		<br><br>
-		<div class="form-group">
-		    {!! Form::label('Your Company:') !!}
-		    {!! Form::text('company', null, 
-		        array('required', 
-		              'class'=>'form-control'
-		             )) !!}
-		</div>
+	<h1> EDIT </h1>
 
-		<br><br>
-		<div class="form-group">
-		    {!! Form::label('Your Email:') !!}
-		    {!! Form::email('email', null, 
-		        array('required', 
-		              'class'=>'form-control'
-		             )) !!}
-		</div>
+	{!! Form::model($resume, [
+	    'method' => 'PATCH',
+	    'route' => ['resume.update', $resume->id]
+	]) !!}
 
-		<br><br>
-		<div class="form-group">
-		   	{!! Form::label('Your Qualification:') !!} 
-		  	{{ Form::radio('qualification', 'Graduate', true) }} Graduate 
-			{{ Form::radio('qualification', 'PostGraduate') }} Post Graduate
-		</div>
+			<br><br>
+			<div class="form-group">
+			    {!! Form::label('Your Name:') !!}
+			    {!! Form::text('name', null, 
+			        array('required', 
+			              'class'=>'form-control'
+			             )) !!}
+			</div>
 
-		<br><br>
-		<div class="form-group">
-		    {!! Form::label('Your Hobbies:') !!}
-		    {!! Form::text('hobbies', null, 
-		        array('required', 
-		              'class'=>'form-control'
-		             )) !!}
-		</div>
+			<br><br>
+			<div class="form-group">
+			    {!! Form::label('Your Company:') !!}
+			    {!! Form::text('company', null, 
+			        array('required', 
+			              'class'=>'form-control'
+			             )) !!}
+			</div>
 
-		<br><br>
-		<div class="form-group">
-		    {!! Form::label('Your Resume:') !!}
-		    {!! Form::text('resume', null, 
-		        array('required', 
-		              'class'=>'form-control'
-		             )) !!}
-		</div>
+			<br><br>
+			<div class="form-group">
+			    {!! Form::label('Your Email:') !!}
+			    {!! Form::email('email', null, 
+			        array('required', 
+			              'class'=>'form-control'
+			             )) !!}
+			</div>
 
-		<br><br>
-		{{ Form::submit('Update!', array('class' => 'btn btn-primary')) }}
+			<br><br>
+			<div class="form-group">
+			   	{!! Form::label('Your Qualification:') !!} 
+			  	{{ Form::radio('qualification', 'Graduate', true) }} Graduate 
+				{{ Form::radio('qualification', 'PostGraduate') }} Post Graduate
+			</div>
 
-	{{ Form::close() }}
+			<br><br>
+			<div class="form-group">
+			    {!! Form::label('Your Hobbies:') !!}
+			    {!! Form::text('hobbies', null, 
+			        array('required', 
+			              'class'=>'form-control'
+			             )) !!}
+			</div>
+
+			<br><br>
+			<div class="form-group">
+				{!! Form::open(array('url'=>'upload_file','method'=>'POST', 'files'=>true)) !!}
+				Upload your resume: 
+				<font size = "2px" color = "red"> Size less than 5mb, extenion: pdf, doc or docx, filename without spaces. </font>
+				<br>
+				{!! Form::file('resume', array('multiple'=> false)) !!}
+			</div>
+
+			<br><br>
+			{{ Form::submit('Update!', array('class' => 'btn btn-primary')) }}
+
+		{{ Form::close() }}
 @stop
