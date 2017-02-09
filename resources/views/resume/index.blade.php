@@ -7,7 +7,7 @@
 @section('style')
   
   tr,th,td {
-  padding: 5px;
+  padding: 3px;
   font-weight: bold
 }
   
@@ -28,8 +28,34 @@
   .content {
       text-align: center;
       padding-top: 50px;
-      padding-left: 450px;
+      padding-left: 400px;
   }
+
+  .button-delete{
+  background-color: #f44336;
+  font-size: 12px;
+  color:white;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+  .button-edit{
+   background-color:#4CAF50;
+  font-size: 12px;
+  color:white;
+  padding: 8px;
+  border-radius: 5px;
+  
+}
+
+.new-entry{
+ 
+ background-color:#8b85ff;
+  font-size: 15px;
+  color:white;
+  padding: 10px;
+  border-radius: 10px; 
+}
 
 @stop
 
@@ -62,17 +88,22 @@
           <td>{{ $value->hobbies }}</td>
           <!-- <td>{{ $value->resume }}</td> -->
           <td><a href = {{ URL::to('/') }}/uploads/{{$value->resume}}> {{$value->resume}} </a> </td>
-          <td><a href="{{ route('resume.edit', $value->id) }}" class="btn btn-primary">Edit</a> </td>
+          <td><a href="{{ route('resume.edit', $value->id) }}" class="button-edit">Edit</a> </td>
 
           
           {{ Form::open(['route' => ['resume.destroy', $value->id], 'method' => 'delete']) }}
-            <td><button type="submit">Delete</button></td>
+            <td><button type="submit" class = "button-delete"> <u> Delete </u></button></td>
           {{ Form::close() }}
         </tr>
       @endforeach
     </table>
   </div>
-  <td><a href="{{ route('resume.create') }}" class="btn btn-primary">Create new entry</a> </td>
-
-
+  <br>
+  <br>
+  <td><a href="{{ route('resume.create') }}" class="new-entry">Create new entry</a> </td>
+  <br><br><br><br><br><br><br><br>
 @stop 
+
+@section('footer')
+NOTE: The entries are sorted in ascending order according to the name. The files can be downloaded by clicking on them.
+@stop

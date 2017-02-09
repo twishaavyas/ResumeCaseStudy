@@ -8,13 +8,14 @@ use App\Resume;
 use View;
 use Session;
 use Redirect;
+use File;
 use Illuminate\Support\Facades\Input;
 
 class ResumeController extends Controller
 {
     public function index()
 	{
-		$resumes = Resume::all();
+		$resumes =  Resume::orderBy('name', 'ASC')->get();
 		return View::make('resume.index')
 			->with('resumes', $resumes);			
 	}
@@ -33,6 +34,7 @@ class ResumeController extends Controller
 			'qualification' => 'required',
 			'resume'	=> 'required',
 			'hobbies' => 'required',
+			'company' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -45,7 +47,7 @@ class ResumeController extends Controller
 			$file = Input::file('resume');
 			if (is_null($file)){
 				Session::flash('message', 'There is an error, upload file again!'); 
-				return Redirect::to('resume/create');
+				return Redirect::to('manage_cv/create');
 			}
 			else{
 				$size = ($file->getSize());
@@ -54,18 +56,17 @@ class ResumeController extends Controller
 			
 				if($size <= 5000000 and ($extension == 'pdf' or $extension =='doc' or $extension == 'docx') and ( (strpos($filename, ' ') == 0)) )
 				{
-					dd($size, $extension);
 					$destinationPath = public_path() .'/uploads/';
 					$file->move($destinationPath, $filename);
 					$resume->resume = $filename;
 					$resume->save();
 					Session::flash('message', 'Successfully created resume!');
-					return Redirect::to('resume');
+					return Redirect::to('manage_cv');
 				}
 				else
 				{
 					Session::flash('message', 'Invalid file name, size or extension!'); 
-					return Redirect::to('resume/create');
+					return Redirect::to('manage_cv/create');
 				}
 			}
 	}
@@ -89,6 +90,10 @@ class ResumeController extends Controller
 		$rules = array(
 			'name'       => 'required',
 			'email'      => 'required|email',
+			'qualification' => 'required',
+			'resume'	=> 'required',
+			'hobbies' => 'required',
+			'company' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -98,19 +103,41 @@ class ResumeController extends Controller
 			$resume->email = Input::get('email');
 			$resume->qualification = Input::get('qualification');
 			$resume->hobbies = Input::get('hobbies');
-			$resume->resume = Input::get('resume');
-			$resume->save();
-			Session::flash('message', 'Successfully updated resume!');
-			return Redirect::to('resume');
+			$file = Input::file('resume');
+			if (is_null($file)){
+				Session::flash('message', 'There is an error, upload file again!'); 
+				return Redirect::to('manage_cv/'.$resume->id.'/edit');
+			}
+			else{
+				$size = ($file->getSize());
+				$extension = $file->getClientOriginalExtension();
+				$filename =  $file->getClientOriginalName();
+			
+				if($size <= 5000000 and ($extension == 'pdf' or $extension =='doc' or $extension == 'docx') and ( (strpos($filename, ' ') == 0)) )
+				{
+					$destinationPath = public_path() .'/uploads/';
+					$file->move($destinationPath, $filename);
+					$resume->resume = $filename;
+					$resume->save();
+					Session::flash('message', 'Successfully created resume!');
+					return Redirect::to('manage_cv');
+				}
+				else
+				{
+					Session::flash('message', 'Invalid file name, size or extension!'); 
+					return Redirect::to('manage_cv/'.$resume->id.'/edit');
+				}
+			}
 		
 	}
 
 	public function destroy($id)
 	{
 		$resume = Resume::find($id);
+		File::delete('/uploads/'.$resume->resume);
 		$resume->delete();
 		Session::flash('message', 'Successfully deleted the resume!');
-		return Redirect::to('resume');
+		return Redirect::to('manage_cv');
 	}
 
 

@@ -17,4 +17,8 @@ Route::get('/', function () {
 
 Route::resource('resume', 'ResumeController');
 
+Route::get('/submit_cv', ['as' => 'resume.create', 'uses' => 'ResumeController@create']);
 
+Route::get('/manage_cv', ['as' => 'resume.index', 'uses' => 'ResumeController@index']);
+
+Route::get('/manage_cv/{resume}/edit', ['as' => 'resume.edit', 'uses' => 'ResumeController@edit']);

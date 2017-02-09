@@ -45,6 +45,24 @@
                 opacity: 0.7; 
             }
 
+            .submit{
+                background-color: #00d234;
+                font-size: 18px;
+                color:white;
+                padding: 8px;
+                border-radius: 5px;
+
+            }
+
+            footer{
+                bottom: 0;
+                position: fixed;
+                width: 100%;
+                color: blue;
+                background-color: #85ffef;
+                opacity: 0.6;
+                padding: 10px;
+            }
         </style>
     </head>
     <script>
@@ -54,4 +72,13 @@
         
         <div class = twisha> Twisha's Test Case  </div>
         @yield('body') </body>
+
+    <footer>
+        @yield('footer')
+        <br>
+        <font size= "2px">
+            <u>Posted by:</u> Twisha Vyas
+            <u>Contact information:</u> <a href="mailto:twishaavyas@gmail.com.com">twishaavyas@gmail.com</a>
+        </font>
+    </footer>
 </html>
