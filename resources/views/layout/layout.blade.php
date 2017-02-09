@@ -29,12 +29,29 @@
                 color: #505050;
             }
 
+            .alert-danger{
+                color: red;
+                padding: 10px;
+                background-color: pink;
+                font-size: 20px;
+                opacity: 0.7;
+            }
+
+            .alert-success{
+                color: green;
+                padding: 10px;
+                background-color: #6bff71;
+                font-size: 20px;  
+                opacity: 0.7; 
+            }
+
         </style>
     </head>
     <script>
         @yield('script')
     </script>
     <body> 
+        
         <div class = twisha> Twisha's Test Case  </div>
         @yield('body') </body>
 </html>

@@ -31,6 +31,8 @@ class ResumeController extends Controller
 			'name'       => 'required',
 			'email'      => 'required|email',
 			'qualification' => 'required',
+			'resume'	=> 'required',
+			'hobbies' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -41,22 +43,31 @@ class ResumeController extends Controller
 			$resume->qualification = Input::get('qualification');
 			$resume->hobbies = Input::get('hobbies');
 			$file = Input::file('resume');
-			$destinationPath = public_path() .'/uploads/';
-			$filename =  $file->getClientOriginalName();
-			$size = ($file->getSize());
-			$extension = $file->getClientOriginalExtension();
-			if($size <= 5000000 and ($extension == 'pdf' or 'doc' or 'docx'))
-			{
-				$file->move($destinationPath, $filename);
+			if (is_null($file)){
+				Session::flash('message', 'There is an error, upload file again!'); 
+				return Redirect::to('resume/create');
 			}
-			else
-			{
-				Session::flash('message', 'This is a message!'); 
+			else{
+				$size = ($file->getSize());
+				$extension = $file->getClientOriginalExtension();
+				$filename =  $file->getClientOriginalName();
+			
+				if($size <= 5000000 and ($extension == 'pdf' or $extension =='doc' or $extension == 'docx') and ( (strpos($filename, ' ') == 0)) )
+				{
+					dd($size, $extension);
+					$destinationPath = public_path() .'/uploads/';
+					$file->move($destinationPath, $filename);
+					$resume->resume = $filename;
+					$resume->save();
+					Session::flash('message', 'Successfully created resume!');
+					return Redirect::to('resume');
+				}
+				else
+				{
+					Session::flash('message', 'Invalid file name, size or extension!'); 
+					return Redirect::to('resume/create');
+				}
 			}
-			$resume->resume = $filename;
-			$resume->save();
-			Session::flash('message', 'Successfully created resume!');
-			return Redirect::to('resume');
 	}
 
 	
@@ -102,40 +113,5 @@ class ResumeController extends Controller
 		return Redirect::to('resume');
 	}
 
-	// public function uploadFile(){
-	// 	$file = Input::file('resume');
-	// 	$destinationPath = public_path() .'/uploads/';
-	// 	$filename =  $file->getClientOriginalName();
-	// 	$size = ($file->getSize());
-	// 	$extension = $file->getClientOriginalExtension();
-	// 	if($size <= 5000000 and ($extension == 'pdf' or 'doc' or 'docx'))
-	// 	{
-	// 		$file->move($destinationPath, $filename);
-	// 		return Redirect::to('resume.create')->with('success', 'Upload successfully');
-	// 	}
-	// 	else
-	// 	{
-	// 		return Redirect::to('resume.create');
-	// 	}
-	// }
 
-	// public function upload(){
-	// 	return view('resume.upload');
-	// }
-
-	// public function download($id)
-	// {
-	// 	$resume = Resume::find($id);
-	// 	$filename = $resume->resume;
-	//     $file = public_path(). "/uploads/" . $filename;   
-	//     return response()->download($file);
-	// }
-
-	public function deleteRecord($id)
-	{
-	    $findRecord = Resume::findOrFail($id);
-	    $findRecord->delete();
-
-	    return 'success';
-	}
 }
