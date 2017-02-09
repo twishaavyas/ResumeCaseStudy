@@ -70,7 +70,13 @@
 			</div>
 
 			<br><br>
-			{{ Form::submit('Update!', array('class' => 'btn btn-primary')) }}
+			{{ Form::submit('Update!', array('class' => 'submit')) }}
 
 		{{ Form::close() }}
+		<br><br><br><br>
+		<br><br><br><br>
+@stop
+
+@section('footer')
+NOTE: Validation has been added to every field, file size and extension are checked and qualifications has only two possible values. 
 @stop
